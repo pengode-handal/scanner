@@ -1,11 +1,290 @@
-# Python code obfuscated by www.development-tools.net 
- 
+import argparse
+import sys
+import os
+from os import system as sistem
+import time 
+from time import sleep as jeda
+from requests import get as ambil
+from sys import exit as keluar
+import requests
 
-import base64, codecs
-magic = 'aW1wb3J0IGFyZ3BhcnNlCmltcG9ydCBzeXMKaW1wb3J0IG9zCmZyb20gb3MgaW1wb3J0IHN5c3RlbSBhcyBzaXN0ZW0KaW1wb3J0IHRpbWUgCmZyb20gdGltZSBpbXBvcnQgc2xlZXAgYXMgamVkYQpmcm9tIHJlcXVlc3RzIGltcG9ydCBnZXQgYXMgYW1iaWwKZnJvbSBzeXMgaW1wb3J0IGV4aXQgYXMga2VsdWFyCmltcG9ydCByZXF1ZXN0cwoKcHJpbnQoIiBpbmkgQ0xJIGJrbiBnaXR1IHBha2VueWEsIGNvbnRvaCBwYWtlIHR1OiBweXRob24zIHNjYW4ucHkgWy4uLk9QVElPTi4uLl0gW0RPTUFJTihObyBodHRwL2h0dHBzKV0iKQpwcmludCgiIiIKdXNhZ2U6IHNjYW4ucHkgWy1oXSBbLW1zIE1BU1NDQU5dIFstbiBOTUFQXSBbLXcgV0hPSVNdIFstZCBETlNdIFstcmQgUkROU10gWy13eiBXSVpBUkRdIFstVl0gWy1nIEdFT10gWy1zIFNVQkZJTkRdIFstbnAgTlBJTkddIFstc24gU1VCTkVUXQoKb3B0aW9uYWwgYXJndW1lbnRzOgogIC1oLCAtLWhlbHAgICAgICAgICAgICBzaG93IHRoaXMgaGVscCBtZXNzYWdlIGFuZCBleGl0CgogIC1tcyBkb21haW4gICAgICAgICAgICBNYXNzIFNjYW5uZXIKICAgICAgICAgICAgICAgICAgICAgICAgCiAgLW4gZG9tYWluICAgICAgICAgICAgIG5tYXAgdG9vbHMKCiAgLXcgZG9tYWluICAgICAgICAgICAgIHdob2lzIHRvb2xzCiAgICAgICAgICAgICAgICAgICAgICAgCiAgLWQgRG9tYWluICAgICAgICAgICAgIHRvb2xzIGRucyBsb29rdXAKCiAgLXJkIGRvbWFpbiAgICAgICAgICAgIHJldmVyc2VlIGRucyB0b29scwogICAgICAgICAgICAgICAgICAgICAgICAKICAtd3ogZG9tYWluICAgICAgICAgICAgYnVhdCB5YW5nIG90YWtueWEgZGFuZ2thbCBnYSBwYWhhbSBhbWEgQ0xJOnYgY2FuZGEgYndhCiAgICAgICAgICAgICAgICAgICAgICAgIAogIC1WLCAtLVZlcnNpb24gICAgICAgICBzaG93IHByb2dyYW0ncyB2ZXJzaW9uIG51bWJlciBhbmQgZXhpdAoKICAtZyBkb21haW4gICAgICAgICAgICAgR2VvIElwIExvb2t1cCBUb29scwoKICAtcyBkb21haW4gICAgICAgICAgICAgU3ViRG9tYWluIEZpbmRlciBUb29scwogICAgIAogIC1ucCBkb21haW4gICAgICAgICAgICBQaW5nIFRlc3RpbmcgVG9vbHMKCiAgLXNuIGRvbWFpbiAgICAgICAgICAgIFN1Yk5ldENhbGMgU2Nhbm5lciBUb29scwoiIiIpCmRlZiBhbnVobSgpOgogIHByaW50KCIiInBpbGloIHlhbmcgbWFuYTpcbjEuIE5tYXAgU2Nhbm5lclxuMi4gd2hvaXMgbG9va3VwXG4zLiBETlMgbG9va3VwXG40LiBSZXZlcnNlZCBETlNcbjUuIHNjYW4gc2VtdWEiIiIpCgojMTAwJSBCVUFUQU4gQkFCV0EgQkVORVJBTiBCV0EgR0EgUkVDT0RFOnYgQklLSU4gSU5JIFRVIDMgSEFSSQpkZWYgbWFpbigpOgogIAogIGRlZiBpbml3ZWIodXJsKToKICAgIG1pbnRhID0gYW1iaWwodXJsKQogICAgcmVzcG9uID0gbWludGEudGV4dAogICAgcHJpbnQocmVzcG9uKQogIAogIGNsaSA9IGFyZ3BhcnNlLkFyZ3VtZW50UGFyc2VyKCkKICBjbGkuYWRkX2FyZ3VtZW50KCItbXMiLCAiLS1tYXNzY2FuIiwgaGVscD0iZG9tYWlueWEgYndhIikKICBjbGkuYWRkX2FyZ3VtZW50KCItbiIsICItLW5tYXAiLCBoZWxwPSJubWFwIHRvb2xzLCBtYXN1a2luIHdlYm55YSIpCiAgY2xpLmFkZF9hcmd1bWVudCgiLXciLCAiLS13aG9pcyIsIGhlbHA9Indob2lzIHRvb2xzLCBtYXN1a2luIHdlYm55YSIpCiAgY2xpLmFkZF9hcmd1bWVudCgiLWQiLCAiLS1kbnMiLCBoZWxwPSJ0b29scyBkbnMgbG9va3VwIikKICBjbGkuYWRkX2FyZ3VtZW50KCItcmQiLCAiLS1yZG5zIiwgaGVscD0icmV2ZXJzZWUgZG5zIHRvb2xzIikKICBjbGkuYWRkX2FyZ3VtZW50KCItd3oiLCAiLS13aXphcmQiLCBoZWxwPSJidWF0IHlhbmcgb3Rha255YSBkYW5na2FsIGdhIHBhaGFtIGFtYSBDTEk6diBjYW5kYSBid2EiKQogIGNsaS5hZGRfYXJndW1lbnQoIi1WIiwgIi0tVmVyc2lvbiIsIGFjdGlvbj0idmVyc2lvbiIsIHZlcnNpb249IlNjYW5uZXIgdG9vbHMgVmVyIDEuMC4yIikKICBjbGkuYWRkX2FyZ3VtZW50KCItZyIsICItLWdlbyIsIGhlbHA9IkdlbyBJcCBMb29rdXAgVG9vbHMiKQogIGNsaS5hZGRfYXJndW1lbnQoIi1zIiwgIi0tc3ViZmluZCIsIGhlbHA9IlN1YkRvbWFpbiBGaW5kZXIgVG9vbHMiKQogIGNsaS5hZGRfYXJndW1lbnQoIi1ucCIsICItLW5waW5nIiwgaGVscD0iUGluZyBUZXN0aW5nIFRvb2xzIikKICBjbGkuYWRkX2FyZ3VtZW50KCItc24iLCAiLS1zdWJuZXQiLCBoZWxwPSJTdWJOZXRDYWxjIFNjYW5uZXIgVG9vbHMiKQogIGNsaWFudSA9IGNsaS5wY'
-love = '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'
-god = 'xuMTAuIFZlcnNpb25cbjExLiBFeGl0IiIiKQogICAgIG5tciA9IChzdHIoaW5wdXQoIlxucGlsaWggbWFuYSA+ICAiKSkpCiAgICAgaWYgKG5tciA9PSAiMSIpOgogICAgICAgcHJpbnQoIiIiIgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCk4gTSBBIFAgIFMgQyBBIE4gTiBFIFIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoiIiIpCiAgICAgICBwcmludCgibXVsYWkgc2Nhbm5pbmcgZG9tYWluOiAiICsgd3J6KQogICAgICAgdXJsID0gImh0dHBzOi8vYXBpLmhhY2tlcnRhcmdldC5jb20vbm1hcC8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjIiKToKICAgICAgIHByaW50KCIiIiIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwpXIEggTyBJIFMgIFMgQyBBIE4gTiBFIFIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoiIiIpICAgCiAgICAgICBwcmludCgibWVtdWxhaSBzY2FubmluZyBkb21haW46ICIgKyB3cnopCiAgICAgICB1cmwgPSAiaHR0cHM6Ly9hcGkuaGFja2VydGFyZ2V0LmNvbS93aG9pcy8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjMiKToKICAgICAgIHByaW50KCIiIiIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKRCBOIFMgIEwgTyBPIEsgVSBQICBTIEMgQSBOIE4gRSBSCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiIiIikKICAgICAgIHByaW50KCJtZW11bGFpIHNjYW5uaW5nIGRvbWFpbjogIiArIHdyeikKICAgICAgIHVybCA9ICJodHRwczovL2FwaS5oYWNrZXJ0YXJnZXQuY29tL2Ruc2xvb2t1cC8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjQiKToKICAgICAgIHByaW50KCIiIiIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwpSIEUgViBFIFIgUyBFIEQgIEQgTiBTICBTIEMgQSBOIE4gRSBSCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIiIiKQogICAgICAgcHJpbnQoIm1lbXVsYWkgc2Nhbm5pbmcgZG9tYWluOiAiICsgd3J6KQogICAgICAgdXJsID0gImh0dHBzOi8vYXBpLmhhY2tlcnRhcmdldC5jb20vcmV2ZXJzZWRucy8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjUiKToKICAgICAgIHByaW50KCIiIgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCkcgRSBPICBJIFAgIEwgTyBPIEsgVSBQICBTIEMgQSBOIE4gRSBSCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKICIiIikKICAgICAgIHByaW50KCJtZW11bGFpIEdlbyBJUCBMb29rdXAgcGFkYSBEb21haW46ICIgKyB3cnopCiAgICAgICB1cmwgPSAiaHR0cHM6Ly9hcGkuaGFja2VydGFyZ2V0LmNvbS9nZW9pcC8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjYiKToKICAgICAgIHByaW50KCIiIgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCkYgSSBOIEQgIEQgTiBTICBIIE8gUyBUCiMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKIiIiKSAgICAgIAogICAgICAgcHJpbnQoIm1lbXVsYWkgRE5TIEhvc3QgRmluZGVyIHBhZGEgRG9tYWluOiAiICsgd3J6KQogICAgICAgdXJsID0gImh0dHBzOi8vYXBpLmhhY2tlcnRhcmdldC5jb20vaG9zdHNlYXJjaC8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgIGlmIChubXIgPT0gIjciKToKICAgICAgIHByaW50KCIiIgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCk4gUCBJIE4gRyAgUyBDIEEgTiBOIEUgUiAKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIwoiIiIpCiAgICAgICBwcmludCgibWVtdWxhaSBOUElORyBTY2FubmVyIiApCiAgICAgICB1cmwgPSAiaHR0cHM6Ly9hcGkuaGFja2VydGFyZ2V0LmNvbS9ucGluZy8/cT0iICsgd3J6CiAgICAgICBpbml3ZWIodXJsKQogICAgICAgcHJpbnQoIiIiIgojIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMKUyBVIEIgTiBFIFQgIFMgQyBBIE4gTiBFIFIKIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjCiIiIikKICAgICAgIHByaW5'
-destiny = '0XPWgMJ11oTScVSA1Lz5yqPOGL2ShozIlVvxXVPNtVPNtVUIloPN9VPWbqUEjpmbiY2SjnF5bLJAeMKW0LKWaMKDhL29gY3A1Lz5yqTAuoTZiC3R9VvNeVUqlrtbtVPNtVPNtnJ5cq2IvXUIloPxXVPNtVPOcMvNboz1lVQ09VPV5Vvx6PvNtVPNtVPOjpzyhqPtvKT5poz1yoKIfLJxtp2AuovOhoJSjKT4vXDbtVPNtVPNtoz00pPN9VPWbqUEjpmbiY2SjnF5bLJAeMKW0LKWaMKDhL29gY25gLKNiC3R9VvNeVUqlrtbtVPNtVPNtnJ5cq2IvXT5gAUNcPvNtVPNtVPOjpzyhqPtvKT5poz1yoKIfLJxtp2AuovO3nT9cp1khVvxXVPNtVPNtVUqbZTymVQ0tVzu0qUOmBv8iLKOcYzuuL2gypaEupzqyqP5wo20iq2uinKZiC3R9VvNeVUqlrtbtVPNtVPNtnJ5cq2IvXUqbZTymXDbtVPNtVPNtpUWcoaDbVykhKT5gMJ11oTScVREBHlOfo29eqKNtp2Auoz5ypykhVvxXVPNtVPNtVREhHlN9VPWbqUEjpmbiY2SjnF5bLJAeMKW0LKWaMKDhL29gY2Ehp2kio2g1pP8/pG0vVPftq3W6PvNtVPNtVPOcozy3MJVbET5GXDbtVPNtVPNtpUWcoaDbVykhKT5gMJ11oTScVSWyqzIlp2IxVREBHlOmL2ShozIlKT4vXDbtVPNtVPNtHzEBplN9VPWbqUEjpmbiY2SjnF5bLJAeMKW0LKWaMKDhL29gY3WyqzIlp2IxoaZiC3R9VvNeVUqlrtbtVPNtVPNtnJ5cq2IvXSWxGaZcPvNtVPNtVPOjpzyhqPtvKT5poz1yoKIfLJxtE2IiVRyDVRkio2g1pPOjLJEuVREioJScowbtVvNeVUqlrvNeVPWpovVcPvNtVPNtVPOUMGNtCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9aMJ9cpP8/pG0vVPftq3W6PvNtVPNtVPOcozy3MJVbE2HjXDbtVPNtVPNtpUWcoaDbVykhKT5gMJ11oTScVREBHlOVo3A0VRMcozEypvOjLJEuVREioJScowbtVvNeVUqlrvNeVPWpovVcPvNtVPNtVPORMxDtCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9bo3A0p2IupzAbYm9kCFVtXlO3pabXVPNtVPNtVTyhnKqyLvuRMxDcPvNtVPNtVPOjpzyhqPtvKT5poz1yoKIfLJxtGyOWGxptH2Auoz5ypvNvVPftVykhVvxXVPNtVPNtVT5DZJ5aVQ0tVzu0qUOmBv8iLKOcYzuuL2gypaEupzqyqP5wo20ioaOcozpiC3R9VvNeVUqlrtbtVPNtVPNtnJ5cq2IvXT5DZJ5aXDbtVPNtVPNtpUWcoaDbVykhKT5gMJ11oTScVSA1Lz5yqPOGL2ShozIlVvNeVPWpovVcPvNtVPNtVPOGqGZtCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9mqJWhMKEwLJkwYm9kCFVtXlO3pabXVPNtVPNtVTyhnKqyLvuGqGZcPvNtVPNtnJLtXT5gpvN9CFNvZGNvXGbXVPNtVPNtVTAfnJShqF5JMKWmnJ9hPvNtVPNtnJLtXT5gpvN9CFNvZGRvXGbXVPNtVPNtVTgyoUIupvtvKT5PrJHtDaquLJRvXDbtVPNtVTIfp2H6PvNtVPNtVPOjpzyhqPtvETSzqTSlVSEcMTSeVRSxLFVcPtbtVTyzVTAfnJShqF5gLKAmL2ShBtbtVPNtpUWcoaDbVykhKT5cozxtoz1upPVtXlNvKT4vXDbtVPNtp2SmLKWuovN9VTAfnJShqF5gLKAmL2ShPvNtVPOBoGEjVQ0tVzu0qUOmBv8iLKOcYzuuL2gypaEupzqyqP5wo20ioz1upP8/pG0vVPftp2SmLKWuotbtVPNtnJ5cq2IvXR5gAUNcPvNtVPOjpzyhqPtvKT5pozyhnKA1LvOfo29eVvNeVPWpovVcPvNtVPOmDz4tCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9mqJWhMKEwLJkwYm9kCFVtXlOmLKAupzShPvNtVPOcozy3MJVbp0WhXDbtVPNtpUWcoaDbVykhKT5cozxtER5GVTkio2g1pPVtXlNvKT4vXDbtVPNtMTkIVQ0tVzu0qUOmBv8iLKOcYzuuL2gypaEupzqyqP5wo20iMT5moT9in3IjYm9kCFVtXlOmLKAupzShPvNtVPOcozy3MJVbMTkIXDbtVPNtpUWcoaDbVykhKT5cozxtHzI2MKWmMJDtER5GVPVtXlNvKT4vXDbtVPNtpxDtCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9lMKMypaAyMT5mYm9kCFVtXlOmLKAupzShVNbtVPNtnJ5cq2IvXUWRXDbtVPNtpUWcoaDbVykhKT5cozxtE0ICVRyDVRkio2g1pPVtXlNvKT4vXDbtVPNtE2HjVQ0tVzu0qUOmBv8iLKOcYzuuL2gypaEupzqyqP5wo20iM2IinKNiC3R9VvNeVUAup2SlLJ4XVPNtVTyhnKqyLvuUMGNcPvNtVPOjpzyhqPtvKT5pozyhnFORGyZtFT9mqPOTnJ5xMKVvVPftVykhVvxXVPNtVREzEPN9VPWbqUEjpmbiY2SjnF5bLJAeMKW0LKWaMKDhL29gY2uip3EmMJSlL2tiC3R9VvNeVUAup2SlLJ4XVPNtVTyhnKqyLvuRMxDcPvNtVPOjpzyhqPtvKT5pozyhnFOBHRyBElOGL2ShozIlVPVtXlNvKT4vXDbtVPNtoyNkozptCFNvnUE0pUZ6Yl9upTxhnTSwn2IlqTSlM2I0YzAioF9hpTyhMl8/pG0vVPftp2SmLKWuotbtVPNtnJ5cq2IvXT5DZJ5aXDccMvOsK25uoJIsKlN9CFNaK19gLJyhK18aBtbtVT1unJ4bXD=='
-joy = '\x72\x6f\x74\x31\x33'
-trust = eval('\x6d\x61\x67\x69\x63') + eval('\x63\x6f\x64\x65\x63\x73\x2e\x64\x65\x63\x6f\x64\x65\x28\x6c\x6f\x76\x65\x2c\x20\x6a\x6f\x79\x29') + eval('\x67\x6f\x64') + eval('\x63\x6f\x64\x65\x63\x73\x2e\x64\x65\x63\x6f\x64\x65\x28\x64\x65\x73\x74\x69\x6e\x79\x2c\x20\x6a\x6f\x79\x29')
-eval(compile(base64.b64decode(eval('\x74\x72\x75\x73\x74')),'<string>','exec'))
+
+
+#100% BUATAN BABWA BENERAN BWA GA RECODE:v BIKIN INI TU 3 HARI
+def main():
+  
+  def iniweb(url):
+    minta = ambil(url)
+    respon = minta.text
+    print(respon)
+  
+  cli = argparse.ArgumentParser()
+  cli.add_argument("-ms", "--masscan", help="domainya bwa")
+  cli.add_argument("-n", "--nmap", help="nmap tools, masukin webnya")
+  cli.add_argument("-w", "--whois", help="whois tools, masukin webnya")
+  cli.add_argument("-d", "--dns", help="tools dns lookup")
+  cli.add_argument("-rd", "--rdns", help="reversee dns tools")
+  cli.add_argument("-wz", "--wizard", help="buat yang otaknya dangkal ga paham ama CLI:v canda bwa")
+  cli.add_argument("-V", "--Version", action="version", version="Scanner tools Ver 1.0.2")
+  cli.add_argument("-g", "--geo", help="Geo Ip Lookup Tools")
+  cli.add_argument("-s", "--subfind", help="SubDomain Finder Tools")
+  cli.add_argument("-np", "--nping", help="Ping Testing Tools")
+  cli.add_argument("-sn", "--subnet", help="SubNetCalc Scanner Tools")
+  cli.add_argument("--author", action="version", version="""100% BUATAN BABWA, NO COPYRIGHT, Autor: Babwa/Gura-Chan \n 
+, Team: MCA, SCT""")
+  clianu = cli.parse_args()
+  if clianu.nmap:
+    print(""""
+#############################################
+N M A P  S C A N N E R
+#############################################
+""")
+    web = clianu.nmap
+    url = "https://api.hackertarget.com/nmap/?q=" + web 
+    iniweb(url)
+    keluar("")
+  if clianu.whois:
+    print(""""
+#############################################
+W H O I S  S C A N N E R
+#############################################
+""")
+    web = clianu.whois
+    url = "https://api.hackertarget.com/whois/?q=" + web
+    iniweb(url)
+    keluar("")
+  if clianu.dns:
+    print(""""
+############################################
+D N S  L O O K U P  S C A N N E R
+############################################
+""")
+    web = clianu.dns 
+    url = "https://api.hackertarget.com/dnslookup/?q=" + web 
+    iniweb(url)
+    keluar("")
+  if clianu.rdns:
+    print(""""
+###########################################
+R E V E R S E D  D N S  S C A N N E R
+###########################################
+""")
+    web = clianu.rdns
+    url = "https://api.hackertarget.com/reversedns/?q=" + web
+    iniweb(url)
+    keluar("")
+  if clianu.geo:
+    print("""
+###########################################
+G E O  I P  L O O K U P  S C A N N E R
+###########################################
+ """)
+    web = clianu.geo
+    url = "https://api.hackertarget.com/geoip/?q=" + web
+    iniweb(url)
+    keluar("")
+  if clianu.subfind:
+    print("""
+###########################################
+F I N D  D N S  H O S T
+###########################################
+""")
+    web = clianu.subfind
+    url = "https://api.hackertarget.com/hostsearch/?q=" + web
+    iniweb(url)
+    keluar("")
+  if clianu.nping:
+    print("""
+###########################################
+N P I N G  S C A N N E R 
+###########################################
+""")
+    web = clianu.nping
+    url = "https://api.hackertarget.com/nping/?q=" + web
+    iniweb(url)
+    keluar("")
+  if clianu.subnet:
+    print(""""
+#############################################
+S U B N E T  S C A N N E R
+#############################################
+""")
+    web = clianu.subnet
+    url = "https://api.hackertarget.com/subnetcalc/?q=" + web 
+    iniweb(url)
+    keluar("")
+  if clianu.wizard:
+     wrz = clianu.wizard
+     print("""pilih yang mana:\n1. Nmap Scanner\n2. whois lookup\n3. DNS lookup\n4. Reversed DNS\n5. Geo IP Lookup\n6. Find Host DNS\n7. NPING Scanner\n8. SubNet Scanner\n9. All Scan\n10. Version\n11. Exit""")
+     nmr = (str(input("\npilih mana >  ")))
+     if (nmr == "1"):
+       print(""""
+###########################################
+N M A P  S C A N N E R
+###########################################
+""")
+       print("mulai scanning domain: " + wrz)
+       url = "https://api.hackertarget.com/nmap/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "2"):
+       print(""""
+###########################################
+W H O I S  S C A N N E R
+###########################################
+""")   
+       print("memulai scanning domain: " + wrz)
+       url = "https://api.hackertarget.com/whois/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "3"):
+       print(""""
+############################################
+D N S  L O O K U P  S C A N N E R
+############################################
+""")
+       print("memulai scanning domain: " + wrz)
+       url = "https://api.hackertarget.com/dnslookup/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "4"):
+       print(""""
+###########################################
+R E V E R S E D  D N S  S C A N N E R
+###########################################
+""")
+       print("memulai scanning domain: " + wrz)
+       url = "https://api.hackertarget.com/reversedns/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "5"):
+       print("""
+###########################################
+G E O  I P  L O O K U P  S C A N N E R
+###########################################
+ """)
+       print("memulai Geo IP Lookup pada Domain: " + wrz)
+       url = "https://api.hackertarget.com/geoip/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "6"):
+       print("""
+###########################################
+F I N D  D N S  H O S T
+###########################################
+""")      
+       print("memulai DNS Host Finder pada Domain: " + wrz)
+       url = "https://api.hackertarget.com/hostsearch/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "7"):
+       print("""
+###########################################
+N P I N G  S C A N N E R 
+###########################################
+""")
+       print("memulai NPING Scanner" )
+       url = "https://api.hackertarget.com/nping/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "8"):
+       print(""""
+#############################################
+S U B N E T  S C A N N E R
+#############################################
+""")
+       print("memulai Subnet Scanner")
+       url = "https://api.hackertarget.com/subnetcalc/?q=" + wrz
+       iniweb(url)
+       keluar("")
+     if (nmr == "9"):
+       print("\n\nmemulai scan nmap\n")
+       nm4p = "https://api.hackertarget.com/nmap/?q=" + wrz
+       iniweb(nm4p)
+       print("\n\nmemulai scan whois\n")
+       wh0is = "https://api.hackertarget.com/whois/?q=" + wrz
+       iniweb(wh0is)
+       print("\n\nmemulai DNS lookup scanner\n")
+       DnS = "https://api.hackertarget.com/dnslookup/?q=" + wrz
+       iniweb(DnS)
+       print("\n\nmemulai Reversed DNS scanner\n")
+       RdNs = "https://api.hackertarget.com/reversedns/?q=" + wrz
+       iniweb(RdNs)
+       print("\n\nmemulai Geo IP Lookup pada Domain: " + wrz + "\n")
+       Ge0 = "https://api.hackertarget.com/geoip/?q=" + wrz
+       iniweb(Ge0)
+       print("\n\nmemulai DNS Host Finder pada Domain: " + wrz + "\n")
+       DfD = "https://api.hackertarget.com/hostsearch/?q=" + wrz
+       iniweb(DfD)
+       print("\n\nmemulai NPING Scanner " + "\n")
+       nP1ng = "https://api.hackertarget.com/nping/?q=" + wrz
+       iniweb(nP1ng)
+       print("\n\nmemulai Subnet Scanner" + "\n")
+       Su3 = "https://api.hackertarget.com/subnetcalc/?q=" + wrz
+       iniweb(Su3)
+       keluar("")
+     if (nmr == "10"):
+       clianu.Version
+       keluar("")
+     if (nmr == "11"):
+       keluar("\nBye Bwaaa")
+     else:
+       print("Daftar Tidak Ada")
+       keluar("")
+
+  if clianu.masscan:
+    print("\n\nini nmap" + "\n")
+    sasaran = clianu.masscan
+    Nm4p = "https://api.hackertarget.com/nmap/?q=" + sasaran
+    iniweb(Nm4p)
+    print("\n\ninisub look" + "\n")
+    sBn = "https://api.hackertarget.com/subnetcalc/?q=" + sasaran
+    iniweb(sBn)
+    print("\n\nini DNS lookup" + "\n")
+    dlU = "https://api.hackertarget.com/dnslookup/?q=" + sasaran
+    iniweb(dlU)
+    print("\n\nini Reversed DNS " + "\n")
+    rD = "https://api.hackertarget.com/reversedns/?q=" + sasaran 
+    iniweb(rD)
+    print("\n\nini GEO IP Lookup" + "\n")
+    Ge0 = "https://api.hackertarget.com/geoip/?q=" + sasaran
+    iniweb(Ge0)
+    print("\n\nini DNS Host Finder" + "\n")
+    DfD = "https://api.hackertarget.com/hostsearch/?q=" + sasaran
+    iniweb(DfD)
+    print("\n\nini NPING Scanner " + "\n")
+    nP1ng = "https://api.hackertarget.com/nping/?q=" + sasaran
+    iniweb(nP1ng)
+    keluar("")
+if __name__ == '__main__':
+  main()
+
+print(" ini CLI bkn gitu pakenya, contoh pake tu: python3 scan.py [...OPTION...] [DOMAIN(No http/https)]")
+print("""
+usage: scan.py [-h] [-ms MASSCAN] [-n NMAP] [-w WHOIS] [-d DNS] [-rd RDNS] [-wz WIZARD] [-V] [-g GEO] [-s SUBFIND] [-np NPING] [-sn SUBNET]
+
+optional arguments:
+  -h, --help            show this help message and exit
+
+  -ms domain            Mass Scanner
+                        
+  -n domain             nmap tools
+
+  -w domain             whois tools
+                       
+  -d Domain             tools dns lookup
+
+  -rd domain            reversee dns tools
+                        
+  -wz domain            buat yang otaknya dangkal ga paham ama CLI:v canda bwa
+                        
+  -V, --Version         show program's version number and exit
+
+  -g domain             Geo Ip Lookup Tools
+
+  -s domain             SubDomain Finder Tools
+     
+  -np domain            Ping Testing Tools
+
+  -sn domain            SubNetCalc Scanner Tools
+""")
