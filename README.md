@@ -1,2 +1,2 @@
-# scanner
-install requests dulu bwa
+# anu
+uhh
